@@ -14,6 +14,7 @@ impl Type<Postgres> for str {
     fn compatible(ty: &PgTypeInfo) -> bool {
         [
             PgTypeInfo::TEXT,
+            PgTypeInfo::CITEXT,
             PgTypeInfo::NAME,
             PgTypeInfo::BPCHAR,
             PgTypeInfo::VARCHAR,

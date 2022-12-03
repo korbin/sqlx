@@ -34,6 +34,7 @@ pub enum PgType {
     Int2,
     Int4,
     Text,
+    Citext,
     Oid,
     Json,
     JsonArray,
@@ -353,6 +354,7 @@ impl PgType {
             PgType::Int2 => Oid(21),
             PgType::Int4 => Oid(23),
             PgType::Text => Oid(25),
+            PgType::Citext => return None,
             PgType::Oid => Oid(26),
             PgType::Json => Oid(114),
             PgType::JsonArray => Oid(199),
@@ -456,6 +458,7 @@ impl PgType {
             PgType::Int2 => "INT2",
             PgType::Int4 => "INT4",
             PgType::Text => "TEXT",
+            PgType::Citext => "CITEXT",
             PgType::Oid => "OID",
             PgType::Json => "JSON",
             PgType::JsonArray => "JSON[]",
@@ -556,6 +559,7 @@ impl PgType {
             PgType::Int2 => "int2",
             PgType::Int4 => "int4",
             PgType::Text => "text",
+            PgType::Citext => "citext",
             PgType::Oid => "oid",
             PgType::Json => "json",
             PgType::JsonArray => "_json",
@@ -656,6 +660,7 @@ impl PgType {
             PgType::Int2 => &PgTypeKind::Simple,
             PgType::Int4 => &PgTypeKind::Simple,
             PgType::Text => &PgTypeKind::Simple,
+            PgType::Citext => &PgTypeKind::Simple,
             PgType::Oid => &PgTypeKind::Simple,
             PgType::Json => &PgTypeKind::Simple,
             PgType::JsonArray => &PgTypeKind::Array(PgTypeInfo(PgType::Json)),
@@ -775,6 +780,7 @@ impl PgType {
             PgType::Int4 => None,
             PgType::Int4Array => Some(Cow::Owned(PgTypeInfo(PgType::Int4))),
             PgType::Text => None,
+            PgType::Citext => None,
             PgType::TextArray => Some(Cow::Owned(PgTypeInfo(PgType::Text))),
             PgType::Oid => None,
             PgType::OidArray => Some(Cow::Owned(PgTypeInfo(PgType::Oid))),
@@ -961,6 +967,9 @@ impl PgTypeInfo {
     // character type, variable-length
     pub(crate) const TEXT: Self = Self(PgType::Text);
     pub(crate) const TEXT_ARRAY: Self = Self(PgType::TextArray);
+
+    // character type, variable-length, case-insensitive
+    pub(crate) const CITEXT: Self = Self(PgType::Citext);
 
     // unknown type, transmitted as text
     pub(crate) const UNKNOWN: Self = Self(PgType::Unknown);
